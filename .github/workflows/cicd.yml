@@ -1,0 +1,51 @@
+name: node js pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  build-and-test:
+
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout my code
+        uses: actions/checkout@v4
+
+      - name: setup node environment
+        uses: actions/setup-node@v5
+        with:
+          node-version: '18'
+      - name: check my node version
+        run: node -v
+      - name: install node dependencies
+        run: npm install
+      - name: test npm
+        run: npm test
+  
+  deploy:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: checkout my code
+        uses: actions/checkout@v4
+
+      - name: setup github pages
+        uses: actions/configure-pages@v5
+
+      - name: uploading artifact
+        uses: actions/upload-pages-artifact@v3
+        with: 
+          path: ./public
+
+      - name: deploy to github pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+          
