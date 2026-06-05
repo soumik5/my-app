@@ -13,9 +13,9 @@ jobs:
       - name: checkout my code
         uses: actions/checkout@v4
       - name: setup node environment
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
-          node version: '22'
+          node-version: '22'
       - name: check my node version
         run: node -v
       - name: install node dependencies
@@ -24,6 +24,6 @@ jobs:
         run: npm test
       - name: lint npm
         run: npm run lint
-      - name: run the build
+      - name: start npm
         run: npm run start
           
