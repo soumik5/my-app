@@ -1,0 +1,29 @@
+name: node js pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout my code
+        uses: action/checkout@v4
+      - name: setup node environment
+        uses: action/setup-node@v4
+        with
+          node version: '22'
+      - name: check my node version
+        run: node -v
+      - name: install node dependencies
+        run: npm ci
+      - name: test npm
+        run: npm test
+      - name: lint npm
+        run: npm run lint
+      - name: run the build
+        run: npm run start
+          
